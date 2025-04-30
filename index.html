@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dusk Light</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to top, #1f1f2e, #3b3b5a);
+      color: #ffffff;
+      transition: background 0.8s ease;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      animation: fadeSlideDown 1s ease;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin: 0;
+      letter-spacing: 1px;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      color: #ccccff;
+      margin-top: 10px;
+      font-style: italic;
+      max-width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+      animation: fadeSlideUp 1s ease;
+      margin-bottom: 30px;
+    }
+
+    .rounded-btn {
+      background: transparent;
+      color: #ffffff;
+      padding: 14px 30px;
+      font-size: 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      border: none;
+    }
+
+    .rounded-btn:hover {
+      background: #ffffff33;
+      color: #fff;
+    }
+
+    .switch-button {
+      position: relative;
+      width: 60px;
+      height: 34px;
+    }
+
+    .switch-button input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #4caf50;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 20px;
+      text-align: center;
+      color: #aaa;
+      font-size: 0.9rem;
+      width: 100%;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Lightbulb Icon Styles */
+    .lightbulb-icon {
+      font-size: 500px; /* Increase size significantly */
+      transition: all 0.5s ease;
+      cursor: pointer;
+    }
+
+    .lightbulb-on {
+      color: #f7e24b; /* Bright yellow color */
+    }
+
+    .lightbulb-off {
+      color: #555;
+    }
+
+    .lightbulb-container {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .lightbulb-container input {
+      width: 70%;
+      margin: 20px 0;
+      background-color: #333;
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    /* Sleep Plus Button Styling */
+    .sleep-plus {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #5b5bb5;
+      color: white;
+      padding: 10px 18px;
+      font-size: 0.95rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .sleep-plus:hover {
+      background: #7878d8;
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeSlideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sleep Plus button -->
+  <button class="sleep-plus" onclick="goToSleepPlus()">Sleep Plus</button>
+
+  <!-- Main UI -->
+  <div id="mainContent">
+    <header>
+      <!-- Lightbulb Icon placed above Dusk Light text -->
+      <div class="lightbulb-container">
+        <i id="lightbulbIcon" class="fas fa-lightbulb lightbulb-off" onclick="toggleLight()"></i>
+      </div>
+
+      <h1>Dusk Light</h1>
+      <p>Engineered for your circadian rhythm and restful sleep.</p>
+    </header>
+
+    <div class="controls">
+      <!-- Sunrise/Sunset buttons -->
+      <button class="rounded-btn" onclick="setWakeMode()">🌅 Sunrise</button>
+      <button class="rounded-btn" onclick="setSleepMode()">🌇 Sunset</button>
+    </div>
+
+    <div class="footer">Created to improve your circadian rhythm.</div>
+  </div>
+
+  <!-- Sleep Plus Placeholder Page -->
+  <div id="placeholderPage" class="hidden">
+    <h1>Sleep Plus</h1>
+    <p>This feature is still under development. Stay tuned!</p>
+    <button class="rounded-btn" onclick="goBack()">← Back</button>
+  </div>
+
+  <script>
+    function toggleLight() {
+      let lightbulbIcon = document.getElementById("lightbulbIcon");
+
+      // Toggle light on and off with the lightbulb icon click
+      if (lightbulbIcon.classList.contains("lightbulb-off")) {
+        document.body.style.background = "linear-gradient(to top, #fceabb, #f8b500)";
+        lightbulbIcon.classList.remove("lightbulb-off");
+        lightbulbIcon.classList.add("lightbulb-on");
+      } else {
+        document.body.style.background = "linear-gradient(to top, #1f1f2e, #3b3b5a)";
+        lightbulbIcon.classList.remove("lightbulb-on");
+        lightbulbIcon.classList.add("lightbulb-off");
+      }
+    }
+
+    function setWakeMode() {
+      document.body.style.background = "linear-gradient(to top, #fffbd5, #b20a2c)";
+    }
+
+    function setSleepMode() {
+      document.body.style.background = "linear-gradient(to top, #2c3e50, #4ca1af)";
+    }
+
+    function goToSleepPlus() {
+      document.getElementById("mainContent").classList.add("hidden");
+      document.getElementById("placeholderPage").classList.remove("hidden");
+    }
+
+    function goBack() {
+      document.getElementById("placeholderPage").classList.add("hidden");
+      document.getElementById("mainContent").classList.remove("hidden");
+    }
+  </script>
+</body>
+</html>
+
+
