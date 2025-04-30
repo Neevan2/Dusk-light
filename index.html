@@ -72,50 +72,6 @@
       color: #fff;
     }
 
-    .switch-button {
-      position: relative;
-      width: 60px;
-      height: 34px;
-    }
-
-    .switch-button input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: 0.4s;
-      border-radius: 34px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 26px;
-      width: 26px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: 0.4s;
-      border-radius: 50%;
-    }
-
-    input:checked + .slider {
-      background-color: #4caf50;
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(26px);
-    }
-
     .footer {
       position: absolute;
       bottom: 20px;
@@ -131,13 +87,16 @@
 
     /* Lightbulb Icon Styles */
     .lightbulb-icon {
-      font-size: 500px; /* Increase size significantly */
+      font-size: 12rem; /* Big! */
+      line-height: 1;
+      display: inline-block;
+      margin-bottom: 20px;
       transition: all 0.5s ease;
       cursor: pointer;
     }
 
     .lightbulb-on {
-      color: #f7e24b; /* Bright yellow color */
+      color: #f7e24b; /* Bright yellow */
     }
 
     .lightbulb-off {
@@ -146,15 +105,7 @@
 
     .lightbulb-container {
       text-align: center;
-      margin-top: 50px;
-    }
-
-    .lightbulb-container input {
-      width: 70%;
-      margin: 20px 0;
-      background-color: #333;
-      border-radius: 10px;
-      padding: 10px;
+      margin-top: 20px;
     }
 
     /* Sleep Plus Button Styling */
@@ -169,6 +120,7 @@
       border-radius: 12px;
       cursor: pointer;
       transition: background 0.3s ease;
+      border: none;
     }
 
     .sleep-plus:hover {
@@ -205,9 +157,9 @@
   <!-- Main UI -->
   <div id="mainContent">
     <header>
-      <!-- Lightbulb Icon placed above Dusk Light text -->
+      <!-- Lightbulb Icon above Dusk Light -->
       <div class="lightbulb-container">
-        <i id="lightbulbIcon" class="fas fa-lightbulb lightbulb-off" onclick="toggleLight()"></i>
+        <i id="lightbulbIcon" class="fas fa-lightbulb lightbulb-off lightbulb-icon" onclick="toggleLight()"></i>
       </div>
 
       <h1>Dusk Light</h1>
@@ -215,7 +167,6 @@
     </header>
 
     <div class="controls">
-      <!-- Sunrise/Sunset buttons -->
       <button class="rounded-btn" onclick="setWakeMode()">🌅 Sunrise</button>
       <button class="rounded-btn" onclick="setSleepMode()">🌇 Sunset</button>
     </div>
@@ -234,7 +185,6 @@
     function toggleLight() {
       let lightbulbIcon = document.getElementById("lightbulbIcon");
 
-      // Toggle light on and off with the lightbulb icon click
       if (lightbulbIcon.classList.contains("lightbulb-off")) {
         document.body.style.background = "linear-gradient(to top, #fceabb, #f8b500)";
         lightbulbIcon.classList.remove("lightbulb-off");
@@ -266,5 +216,4 @@
   </script>
 </body>
 </html>
-
 
