@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dusk Light</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
     * {
       box-sizing: border-box;
@@ -22,18 +22,18 @@
       background: linear-gradient(to top, #1f1f2e, #3b3b5a);
       color: #ffffff;
       transition: background 0.8s ease;
+      animation: pulseBackground 5s infinite ease-in-out;
     }
 
     header {
       text-align: center;
-      margin-bottom: 40px;
-      animation: fadeSlideDown 1s ease;
+      margin-bottom: 20px;
     }
 
     header h1 {
       font-size: 3rem;
       margin: 0;
-      letter-spacing: 1px;
+      color: #f7e24b;
     }
 
     header p {
@@ -41,177 +41,196 @@
       color: #ccccff;
       margin-top: 10px;
       font-style: italic;
-      max-width: 80%;
-      margin-left: auto;
-      margin-right: auto;
     }
 
     .controls {
       display: flex;
       flex-wrap: wrap;
-      gap: 20px;
+      gap: 15px;
       justify-content: center;
-      align-items: center;
-      animation: fadeSlideUp 1s ease;
-      margin-bottom: 30px;
+      margin-top: 20px;
     }
 
-    .rounded-btn {
+    .rounded-btn, .sleep-plus {
       background: transparent;
       color: #ffffff;
-      padding: 14px 30px;
+      padding: 12px 25px;
       font-size: 1rem;
       border-radius: 30px;
       cursor: pointer;
-      transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-      border: none;
+      border: 2px solid #ffffff33;
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
-    .rounded-btn:hover {
+    .rounded-btn:hover, .sleep-plus:hover {
       background: #ffffff33;
       color: #fff;
     }
 
-    .footer {
-      position: absolute;
-      bottom: 20px;
-      text-align: center;
-      color: #aaa;
-      font-size: 0.9rem;
+    .bulb-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       width: 100%;
+      margin: 20px 0;
+    }
+
+    .lightbulb-icon {
+      font-size: 200px;
+      cursor: pointer;
+      transition: filter 0.3s ease;
+      color: #555;
+    }
+
+    .lightbulb-on {
+      color: #f7e24b;
+      filter: brightness(1);
+      text-shadow: 0 0 30px #f7e24b;
+    }
+
+    .brightness-control {
+      display: none;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .brightness-control input[type="range"] {
+      width: 200px;
+    }
+
+    .footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #aaa;
     }
 
     .hidden {
       display: none;
     }
 
-    /* Lightbulb Icon Styles */
-    .lightbulb-icon {
-      font-size: 12rem; /* Big! */
-      line-height: 1;
-      display: inline-block;
-      margin-bottom: 20px;
-      transition: all 0.5s ease;
-      cursor: pointer;
-    }
-
-    .lightbulb-on {
-      color: #f7e24b; /* Bright yellow */
-    }
-
-    .lightbulb-off {
-      color: #555;
-    }
-
-    .lightbulb-container {
+    .settings-page {
       text-align: center;
       margin-top: 20px;
+      padding: 20px;
+      background: #444;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 400px;
     }
 
-    /* Sleep Plus Button Styling */
-    .sleep-plus {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: #5b5bb5;
-      color: white;
-      padding: 10px 18px;
-      font-size: 0.95rem;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: background 0.3s ease;
+    .settings-page h1, .settings-page p {
+      margin: 10px 0;
+    }
+
+    .settings-page input[type="time"] {
+      padding: 10px;
+      border-radius: 10px;
       border: none;
+      font-size: 1rem;
     }
 
-    .sleep-plus:hover {
-      background: #7878d8;
-    }
-
-    @keyframes fadeSlideUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeSlideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    @keyframes pulseBackground {
+      0% { opacity: 1; }
+      50% { opacity: 0.95; }
+      100% { opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <!-- Sleep Plus button -->
-  <button class="sleep-plus" onclick="goToSleepPlus()">Sleep Plus</button>
-
-  <!-- Main UI -->
   <div id="mainContent">
     <header>
-      <!-- Lightbulb Icon above Dusk Light -->
-      <div class="lightbulb-container">
-        <i id="lightbulbIcon" class="fas fa-lightbulb lightbulb-off lightbulb-icon" onclick="toggleLight()"></i>
-      </div>
-
       <h1>Dusk Light</h1>
       <p>Engineered for your circadian rhythm and restful sleep.</p>
     </header>
 
+    <div class="bulb-container">
+      <i id="lightbulbIcon" class="fas fa-lightbulb lightbulb-icon" onclick="toggleLight()"></i>
+    </div>
+
+    <div class="brightness-control" id="brightnessControl">
+      <input type="range" id="brightnessSlider" min="0" max="100" value="100" onchange="adjustBrightness(this)" />
+    </div>
+
     <div class="controls">
-      <button class="rounded-btn" onclick="setWakeMode()">🌅 Sunrise</button>
-      <button class="rounded-btn" onclick="setSleepMode()">🌇 Sunset</button>
+      <button class="rounded-btn" onclick="goToSunrisePage()">🌅 Sunrise</button>
+      <button class="rounded-btn" onclick="goToSunsetPage()">🌇 Sunset</button>
+      <button class="sleep-plus" onclick="goToSleepPlus()">Sleep Plus</button>
     </div>
 
     <div class="footer">Created to improve your circadian rhythm.</div>
   </div>
 
-  <!-- Sleep Plus Placeholder Page -->
-  <div id="placeholderPage" class="hidden">
+  <div id="sunrisePage" class="hidden settings-page">
+    <h1>Sunrise Settings</h1>
+    <p>Set your sunrise time:</p>
+    <input type="time" id="sunriseTime" />
+    <button class="rounded-btn" onclick="goBack()">← Back</button>
+  </div>
+
+  <div id="sunsetPage" class="hidden settings-page">
+    <h1>Sunset Settings</h1>
+    <p>Set your sunset time:</p>
+    <input type="time" id="sunsetTime" />
+    <button class="rounded-btn" onclick="goBack()">← Back</button>
+  </div>
+
+  <div id="placeholderPage" class="hidden settings-page">
     <h1>Sleep Plus</h1>
     <p>This feature is still under development. Stay tuned!</p>
     <button class="rounded-btn" onclick="goBack()">← Back</button>
   </div>
 
   <script>
-    function toggleLight() {
-      let lightbulbIcon = document.getElementById("lightbulbIcon");
+    const mainContent = document.getElementById("mainContent");
+    const sunrisePage = document.getElementById("sunrisePage");
+    const sunsetPage = document.getElementById("sunsetPage");
+    const placeholderPage = document.getElementById("placeholderPage");
+    const lightbulbIcon = document.getElementById("lightbulbIcon");
+    const brightnessControl = document.getElementById("brightnessControl");
 
-      if (lightbulbIcon.classList.contains("lightbulb-off")) {
-        document.body.style.background = "linear-gradient(to top, #fceabb, #f8b500)";
-        lightbulbIcon.classList.remove("lightbulb-off");
+    let isLightOn = false;
+
+    function toggleLight() {
+      isLightOn = !isLightOn;
+      if (isLightOn) {
         lightbulbIcon.classList.add("lightbulb-on");
+        brightnessControl.style.display = "block";
       } else {
-        document.body.style.background = "linear-gradient(to top, #1f1f2e, #3b3b5a)";
         lightbulbIcon.classList.remove("lightbulb-on");
-        lightbulbIcon.classList.add("lightbulb-off");
+        brightnessControl.style.display = "none";
+        lightbulbIcon.style.filter = "brightness(1)";
       }
     }
 
-    function setWakeMode() {
-      document.body.style.background = "linear-gradient(to top, #fffbd5, #b20a2c)";
+    function adjustBrightness(slider) {
+      if (isLightOn) {
+        const brightness = slider.value / 100;
+        lightbulbIcon.style.filter = `brightness(${brightness})`;
+      }
     }
 
-    function setSleepMode() {
-      document.body.style.background = "linear-gradient(to top, #2c3e50, #4ca1af)";
+    function goToSunrisePage() {
+      mainContent.classList.add("hidden");
+      sunrisePage.classList.remove("hidden");
+    }
+
+    function goToSunsetPage() {
+      mainContent.classList.add("hidden");
+      sunsetPage.classList.remove("hidden");
+      document.body.style.background = "linear-gradient(to top, #2c3e50, #000000)";
     }
 
     function goToSleepPlus() {
-      document.getElementById("mainContent").classList.add("hidden");
-      document.getElementById("placeholderPage").classList.remove("hidden");
+      mainContent.classList.add("hidden");
+      placeholderPage.classList.remove("hidden");
     }
 
     function goBack() {
-      document.getElementById("placeholderPage").classList.add("hidden");
-      document.getElementById("mainContent").classList.remove("hidden");
+      sunrisePage.classList.add("hidden");
+      sunsetPage.classList.add("hidden");
+      placeholderPage.classList.add("hidden");
+      mainContent.classList.remove("hidden");
+      document.body.style.background = "linear-gradient(to top, #1f1f2e, #3b3b5a)";
     }
   </script>
 </body>
