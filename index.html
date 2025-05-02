@@ -158,6 +158,7 @@
       <button class="rounded-btn" onclick="goToSunsetPage()">🌇 Sunset</button>
       <button class="sleep-plus" onclick="goToSleepPlus()">Sleep Plus</button>
       <button class="rounded-btn" onclick="playWhiteNoise()">🔊 White Noise</button>
+      <button class="rounded-btn" onclick="goToAlarmPage()">⏰ Alarm</button>
     </div>
 
     <div class="footer">Created to improve your circadian rhythm.</div>
@@ -183,11 +184,19 @@
     <button class="rounded-btn" onclick="goBack()">← Back</button>
   </div>
 
+  <div id="alarmPage" class="hidden settings-page">
+    <h1>Alarm Settings</h1>
+    <p>Set your wake-up alarm:</p>
+    <input type="time" id="alarmTime" />
+    <button class="rounded-btn" onclick="goBack()">← Back</button>
+  </div>
+
   <script>
     const mainContent = document.getElementById("mainContent");
     const sunrisePage = document.getElementById("sunrisePage");
     const sunsetPage = document.getElementById("sunsetPage");
     const placeholderPage = document.getElementById("placeholderPage");
+    const alarmPage = document.getElementById("alarmPage");
     const lightbulbIcon = document.getElementById("lightbulbIcon");
     const brightnessControl = document.getElementById("brightnessControl");
 
@@ -228,10 +237,16 @@
       placeholderPage.classList.remove("hidden");
     }
 
+    function goToAlarmPage() {
+      mainContent.classList.add("hidden");
+      alarmPage.classList.remove("hidden");
+    }
+
     function goBack() {
       sunrisePage.classList.add("hidden");
       sunsetPage.classList.add("hidden");
       placeholderPage.classList.add("hidden");
+      alarmPage.classList.add("hidden");
       mainContent.classList.remove("hidden");
       document.body.style.background = "linear-gradient(to top, #1f1f2e, #3b3b5a)";
     }
@@ -243,4 +258,3 @@
   </script>
 </body>
 </html>
-
